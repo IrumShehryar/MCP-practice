@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\irum\\Downloads"
+      ]
+    },
+    "remote-demo": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\irum\\mcp-practice\\mcp-remote-demo\\server.py"
+      ]
+    }
+  }
+}
