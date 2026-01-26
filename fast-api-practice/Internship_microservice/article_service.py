@@ -6,6 +6,7 @@ from uuid import uuid4
 app=FastAPI()
 
 ARTICLES_DB = {}
+CONFIRMED_LABELS_DB = {}
 
 class ArticleIn(BaseModel):
     title: str
@@ -23,6 +24,12 @@ class ClassificationOut(BaseModel):
     location : Optional[str] = None
     confidence : float
     notes : Optional[str] = None
+    
+class CategoryConfirmIn(BaseModel):
+    category: str
+    location: Optional[str] = None
+    accepted : bool
+    
 
 @app.get("/")
 def root():
@@ -68,3 +75,14 @@ def classify_article(article_id : str):
         confidence = 0.20,
         notes = "Mock classification - no model integrated yet  "
     )
+    
+    
+@app.post("/articles/{article_id}/confirm-category")
+def confirm_category(article_id: str,decision: CategoryConfirmIn):
+    
+    article = ARTICLES_DB.get(article_id)
+    if article is None:
+        raise HTTPException(status_code = 404,detail = "Article not found")     
+    CONFIRMED_LABELS_DB[article_id]= decision
+    
+    return{"article_id":article_id, "saved":True}
